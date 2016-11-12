@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="440.0" maxWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umleditor.gui.UIController">
+   <children>
+      <BorderPane maxHeight="440.0" maxWidth="600.0" prefHeight="440.0" prefWidth="600.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Edit">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#groupObjects" text="Group" />
+                        <MenuItem mnemonicParsing="false" onAction="#ungroupObjects" text="UnGroup" />
+                        <MenuItem mnemonicParsing="false" onAction="#changObjectName" text="Change Object Name" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="440.0" prefWidth="100.0" spacing="15.0">
+                     <children>
+                        <Button id="select" onAction="#selectClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                        <Button id="association" onAction="#connectionClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                        <Button id="generalization" onAction="#connectionClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                        <Button id="composition" onAction="#connectionClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                        <Button id="class" onAction="#objectClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                        <Button id="useCase" onAction="#objectClick" prefHeight="50.0" prefWidth="60.0" styleClass="btn" stylesheets="@style.css" />
+                     </children>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </VBox>
+                  <Pane fx:id="pane" prefHeight="440.0" prefWidth="500.0" style="-fx-border-color: black;">
+                     <children>
+                           <Group fx:id="root" style="-fx-background-color: black;" />
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" right="15.0" top="15.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets bottom="15.0" right="15.0" top="15.0" />
+                     </HBox.margin>
+                  </Pane>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+   </children>
+</Pane>

@@ -1,0 +1,38 @@
+.btn{
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+    -fx-background-size: cover, auto;
+
+}
+
+.btn:hover {
+    -fx-background-color: gray;
+}
+
+.btn_black {
+    -fx-background-color: black;
+}
+
+#select {
+    -fx-background-image: url("../res/select.png");
+}
+
+#association {
+    -fx-background-image: url("../res/association.png");
+}
+
+#generalization {
+    -fx-background-image: url("../res/generalization.png");
+}
+
+#composition {
+    -fx-background-image: url("../res/composition.png");
+}
+
+#class {
+    -fx-background-image: url("../res/class.png");
+}
+
+#useCase {
+    -fx-background-image: url("../res/useCase.png");
+}

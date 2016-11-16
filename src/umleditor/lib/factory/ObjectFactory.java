@@ -118,6 +118,8 @@ public class ObjectFactory {
         composite.setOnMouseDragged(handler.getOnMouseDraggedEvent());
         composite.setOnMouseReleased(handler.getOnMouseReleasedEvent());
 
+        composite.setCursor(Cursor.HAND);
+
         return composite;
     }
 

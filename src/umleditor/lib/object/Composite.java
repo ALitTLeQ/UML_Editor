@@ -18,26 +18,22 @@ public class Composite extends Entity {
         super();
     }
 
-    public void addAllObject(Entity... args) {
-        ArrayList<Entity> list = new ArrayList<>(Arrays.asList(args));
-        this.addAllObject(list);
-    }
-
     public void addAllObject(ArrayList<Entity>objList){
         for(Entity obj: objList)
         {
             this.getChildren().add(obj);
-
         }
 
+        // add group region
         Bounds bounds = getBoundsInLocal();
-        System.out.println("com:"+bounds);
         show = new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
         show.setFill(Color.TRANSPARENT);
         show.setStroke(Color.RED);
         show.setStrokeWidth(2);
         show.toFront();
+
         this.getChildren().add(show);
+        System.out.println(this.getTranslateX());
     }
 
     @Override
@@ -63,14 +59,11 @@ public class Composite extends Entity {
         }
     }
 
-
-
     public void unGroup(){
         this.getChildren().remove(show);
 
         double offsetX = this.getTranslateX();
         double offsetY = this.getTranslateY();
-
 
         for(Node obj : this.getChildren()){
             if(obj instanceof BasicObject)
@@ -98,26 +91,6 @@ public class Composite extends Entity {
             }
             else if(obj instanceof Composite){
                 objects.add((Composite)obj);
-            }
-        }
-        return objects;
-    }
-
-
-    public Rectangle getShow()
-    {
-        return show;
-    }
-
-    public ArrayList<BasicObject> getAllBasicObjects(){
-        ArrayList<BasicObject> objects= new ArrayList<>();
-        for(Node obj : this.getChildren()){
-            if(obj instanceof BasicObject)
-            {
-                objects.add(((BasicObject)obj));
-            }
-            else if(obj instanceof Composite){
-                objects.addAll( ((Composite)obj).getAllBasicObjects() );
             }
         }
         return objects;

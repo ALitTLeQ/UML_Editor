@@ -17,11 +17,9 @@ import static java.lang.Math.*;
 /**
  * Created by ee830804 on 2016/10/30.
  */
-public class DefaultMouseEventHandler implements MouseEventHandler{
+public class DefaultMouseEventHandler implements MouseEventHandler {
 
-    private DefaultMouseEventHandler() {
-    }
-
+    private DefaultMouseEventHandler() {}
 
     private static MouseEventHandler INSTANCE;
     public static MouseEventHandler instance() {
@@ -32,14 +30,14 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
     }
 
     private UIController uiController;
+    private double beginSceneX, beginSceneY, translateX, translateY, beginLocalX, beginLocalY;
+    private BasicObject fromObject;
+    private int fromPortIdx;
+
     @Override
     public void setUIController(UIController uic){
         this.uiController = uic;
     }
-
-    private double beginSceneX, beginSceneY, translateX, translateY, beginLocalX, beginLocalY;
-    private BasicObject fromObject;
-    private int fromPortIdx;
 
     @Override
     public EventHandler<MouseEvent> getOnMousePressedEvent() {
@@ -53,39 +51,26 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
                 beginLocalY = e.getY();
 
                 if(e.getSource() instanceof Pane) {
-                    System.out.println("pane");
-                    if (uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.mode == UIController.Mode.SELECT) {
                         uiController.clearSelected();
 
-
-                    } else if (uiController.mode == UIController.Mode.OBJECT) {
-                        uiController.addObject(e.getX(), e.getY());
+                    }
+                    else if(uiController.mode == UIController.Mode.OBJECT) {
+                        uiController.addBasicObject(e.getX(), e.getY());
                     }
                 }
-                else if(e.getSource() instanceof Composite) {
-                    if (uiController.mode == UIController.Mode.SELECT) {
-                        System.out.println("composite Pressed");
-                        Composite composite = ((Composite) e.getSource());
+                else if(e.getSource() instanceof Entity) {
+                    Entity entity = ((Entity) e.getSource());
+                    translateX = entity.getTranslateX();
+                    translateY = entity.getTranslateY();
+
+                    if(uiController.mode == UIController.Mode.SELECT) {
                         uiController.clearSelected();
-                        uiController.addSelected(composite);
-
-
-                        translateX = composite.getTranslateX();
-                        translateY = composite.getTranslateY();
+                        uiController.addSelected(entity);
                         e.consume();
                     }
-                }
-                else if(e.getSource() instanceof BasicObject) {
-                    BasicObject pressedObject = (BasicObject) (e.getSource());
-
-                    translateX = pressedObject.getTranslateX();
-                    translateY = pressedObject.getTranslateY();
-
-                    if(uiController.mode == UIController.Mode.SELECT){
-                        uiController.clearSelected();
-                        uiController.addSelected(pressedObject);
-                    }
-                    else if(uiController.mode == UIController.Mode.CONNECTION){
+                    else if(uiController.mode == UIController.Mode.CONNECTION &&
+                            entity instanceof BasicObject){
                         uiController.pullLine.setStartX(translateX + e.getX());
                         uiController.pullLine.setStartY(translateY + e.getY());
                         uiController.pullLine.setEndX(translateX + e.getX());
@@ -97,9 +82,8 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
         };
     }
 
-
     @Override
-    public EventHandler<MouseEvent> getOnDragDetectedEventHandler(){
+    public EventHandler<MouseEvent> getOnDragDetectedEventHandler() {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -128,7 +112,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
                 double newTranslateY = translateY + offsetY;
 
                 if(e.getSource() instanceof Pane) {
-                    if (uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.mode == UIController.Mode.SELECT) {
                         double minX = min(e.getX(),beginLocalX);
                         double minY = min(e.getY(),beginLocalY);
                         double maxX = max(e.getX(),beginLocalX);
@@ -142,51 +126,28 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
                     }
                     e.consume();
                 }
-                else if(e.getSource() instanceof Composite) {
-                    //System.out.println("Composite Drgged");
-                        if (uiController.mode == UIController.Mode.SELECT) {
-                            Composite composite = (Composite) (e.getSource());
+                else if(e.getSource() instanceof Entity) {
+                    Entity entity = (Entity) (e.getSource());
 
-                            System.out.println(newTranslateX);
-                            System.out.println(composite.getBoundsInParent().getMinX());
+                    if(uiController.mode == UIController.Mode.SELECT) {
 
-                            composite.setTranslate(newTranslateX, newTranslateY);
-                            /*
-                            if(uiController.getBounds().getMinX() < composite.getBoundsInParent().getMinX())
-                            {
+                        entity.setTranslate(newTranslateX, newTranslateY);
 
-                                composite.setTranslate(newTranslateX, newTranslateY);
-                            }
-                            else if(uiController.getBounds().getMinX() >= composite.getBoundsInParent().getMinX()){
-                                //newTranslateX +=  5;
-                                composite.setTranslate(composite.getLayoutX()+5, newTranslateY);
-                            }
-
-                            System.out.println(newTranslateX + "\n--------\n");
-
-                            */
-                    }
-                    e.consume();
-
-                }
-                else if(e.getSource() instanceof BasicObject) {
-                    if (uiController.mode == UIController.Mode.SELECT) {
-                        BasicObject draggedObject = (BasicObject) (e.getSource());
-
-                        draggedObject.setTranslate(newTranslateX, newTranslateY);
-
-                        if(uiController.getBounds().getMinX() >= draggedObject.getBoundsInParent().getMinX()) {
-                            newTranslateX = uiController.getBounds().getMinX() + 5;
+                        double dx = uiController.getBounds().getMinX() - entity.getBoundsInParent().getMinX();
+                        double dy = uiController.getBounds().getMinY() - entity.getBoundsInParent().getMinY();
+                        if(dx >= 0)
+                        {
+                            newTranslateX = entity.getTranslateX() + dx + 5;
                         }
-                        if(uiController.getBounds().getMinY() >= draggedObject.getBoundsInParent().getMinY()) {
-                            newTranslateY =  uiController.getBounds().getMinY() + 5;
+                        if(dy >= 0)
+                        {
+                            newTranslateY = entity.getTranslateY() + dy + 5;
                         }
+                        entity.setTranslate(newTranslateX, newTranslateY);
 
-                        draggedObject.setTranslate(newTranslateX, newTranslateY);
-
-                        e.consume();
                     }
-                    else if (uiController.mode == UIController.Mode.CONNECTION) {
+                    else if(uiController.mode == UIController.Mode.CONNECTION &&
+                            entity instanceof BasicObject){
                         uiController.pullLine.toFront();
                         uiController.pullLine.setEndX(translateX + e.getX());
                         uiController.pullLine.setEndY(translateY + e.getY());
@@ -194,19 +155,17 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
                     e.consume();
                 }
 
-
             }
         };
     }
 
     @Override
-    public EventHandler<MouseEvent> getOnMouseReleasedEvent()
-    {
+    public EventHandler<MouseEvent> getOnMouseReleasedEvent() {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
                 if(e.getSource() instanceof Pane) {
-                    if (uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.mode == UIController.Mode.SELECT) {
 
                         Bounds selectBounds = uiController.multiSelectRect.getBoundsInParent();
                         uiController.clearSelected();
@@ -248,12 +207,11 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
     }
 
     @Override
-    public EventHandler<MouseEvent> getOnMouseDragReleasedEvent(){
+    public EventHandler<MouseEvent> getOnMouseDragReleasedEvent() {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
                 BasicObject dropObject = (BasicObject) (e.getSource());
-                System.out.println(dropObject.getName());
 
                 int toPortIdx = choosePort(dropObject, e.getX(), e.getY());
                 uiController.addConnection(fromObject, fromPortIdx, dropObject, toPortIdx);
@@ -263,11 +221,11 @@ public class DefaultMouseEventHandler implements MouseEventHandler{
         };
     }
 
-
-    public int choosePort(BasicObject obj, double x, double y){
+    public int choosePort(BasicObject obj, double x, double y) {
         Point2D mousePoint = new Point2D(x, y);
         Rectangle port = new Rectangle(0, 0);
         double minDist = Double.MAX_VALUE;
+
         for(Rectangle rect : obj.pList)
         {
             Point2D fp = new Point2D(rect.getX(), rect.getY());

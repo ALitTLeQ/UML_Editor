@@ -6,12 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import umleditor.lib.object.BasicObject;
@@ -22,6 +20,7 @@ import umleditor.lib.factory.ConnectionFactory;
 import umleditor.lib.factory.ObjectFactory;
 import umleditor.lib.handler.DefaultMouseEventHandler;
 import umleditor.lib.handler.MouseEventHandler;
+import umleditor.lib.connection.AlignedLine;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class UIController implements Initializable {
     public static ArrayList<Entity> selectedObjects = new ArrayList<>();
 
     public Rectangle multiSelectRect;
-    public Line pullLine;
+    public AlignedLine alignedLine;
 
     @FXML
     private Pane pane;
@@ -64,21 +63,13 @@ public class UIController implements Initializable {
         multiSelectRect.setStrokeLineCap(StrokeLineCap.ROUND);
         multiSelectRect.setFill(Color.LIGHTBLUE.deriveColor(0, 1.2, 1, 0.6));
 
-        pullLine = new Line(0, 0, 0, 0);
-        pullLine.setStroke(Color.GRAY);
-        pullLine.setStrokeWidth(1);
-        pullLine.setMouseTransparent(true);
+        alignedLine = new AlignedLine(0, 0, 0, 0);
+
 
         pane.setStyle("-fx-background-color: #FFFFFF;");
 
-        root.getChildren().addAll(pullLine, multiSelectRect );
+        root.getChildren().addAll(alignedLine, multiSelectRect );
 
-        /*
-        addBasicObject(50, 50);
-        addBasicObject(200, 50);
-        addBasicObject(50, 230);
-        addBasicObject(200, 230);
-        */
     }
 
     public void selectButton(Button btn){

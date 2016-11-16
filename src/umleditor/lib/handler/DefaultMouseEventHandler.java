@@ -71,10 +71,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     }
                     else if(uiController.mode == UIController.Mode.CONNECTION &&
                             entity instanceof BasicObject){
-                        uiController.pullLine.setStartX(translateX + e.getX());
-                        uiController.pullLine.setStartY(translateY + e.getY());
-                        uiController.pullLine.setEndX(translateX + e.getX());
-                        uiController.pullLine.setEndY(translateY + e.getY());
+                        uiController.alignedLine.setInitial(translateX + e.getX(), translateY + e.getY());
                     }
                 }
                 e.consume();
@@ -132,7 +129,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     if(uiController.mode == UIController.Mode.SELECT) {
 
                         entity.setTranslate(newTranslateX, newTranslateY);
-
+                        // set entities movable area
                         double dx = uiController.getBounds().getMinX() - entity.getBoundsInParent().getMinX();
                         double dy = uiController.getBounds().getMinY() - entity.getBoundsInParent().getMinY();
                         if(dx >= 0)
@@ -148,9 +145,8 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     }
                     else if(uiController.mode == UIController.Mode.CONNECTION &&
                             entity instanceof BasicObject){
-                        uiController.pullLine.toFront();
-                        uiController.pullLine.setEndX(translateX + e.getX());
-                        uiController.pullLine.setEndY(translateY + e.getY());
+                        uiController.alignedLine.toFront();
+                        uiController.alignedLine.setEnd(translateX + e.getX(), translateY + e.getY());
                     }
                     e.consume();
                 }
@@ -192,10 +188,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 else if(e.getSource() instanceof BasicObject) {
                     if (uiController.mode == UIController.Mode.CONNECTION) {
 
-                        uiController.pullLine.setStartX(0);
-                        uiController.pullLine.setStartY(0);
-                        uiController.pullLine.setEndX(0);
-                        uiController.pullLine.setEndY(0);
+                        uiController.alignedLine.setInitial(0, 0);
 
                         BasicObject releasedObject = (BasicObject) (e.getSource());
                         releasedObject.setMouseTransparent(false);

@@ -138,7 +138,6 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     }
                 }
                 e.consume();
-
             }
         };
     }
@@ -155,8 +154,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         uiController.clearSelected();
 
                         for(Entity obj : uiController.getObjects()) {
-                            if(selectBounds.contains(obj.getBoundsInParent()))
-                            {
+                            if(selectBounds.contains(obj.getBoundsInParent())) {
                                 uiController.addSelected(obj);
                             }
                         }

@@ -65,11 +65,11 @@ public class BasicObject extends Entity {
     }
 
     public void updateConnection() {
-        for (ConnectionLine c : this.getConnectionFrom()) {
-            c.update();
+        for (ConnectionLine connectionLine : this.getConnectionFrom()) {
+            connectionLine.update();
         }
-        for (ConnectionLine c : this.getConnectionTo()) {
-            c.update();
+        for (ConnectionLine connectionLine : this.getConnectionTo()) {
+            connectionLine.update();
         }
     }
 

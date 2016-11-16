@@ -141,6 +141,8 @@ public class UIController implements Initializable{
             objects.removeAll(composite.getChildren());
             objects.add(composite);
             root.getChildren().add(composite);
+            clearSelected();
+            addSelected(composite);
         }
     }
 
@@ -156,11 +158,13 @@ public class UIController implements Initializable{
                 objects.addAll(composite.getSiblingObjects());
                 objects.remove(composite);
 
+                clearSelected();
+                composite.getSiblingObjects().forEach( obj-> addSelected(obj) );
+
                 parent.getChildren().addAll(composite.getChildren());
                 parent.getChildren().remove(composite);
             }
         }
-
     }
 
     public ArrayList<Entity> getObjects() {

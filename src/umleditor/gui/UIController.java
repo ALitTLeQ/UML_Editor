@@ -1,5 +1,6 @@
 package umleditor.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -72,11 +73,12 @@ public class UIController implements Initializable {
 
         root.getChildren().addAll(pullLine, multiSelectRect );
 
-
+        /*
         addObject(50, 50);
         addObject(200, 50);
         addObject(50, 230);
         addObject(200, 230);
+        */
     }
 
     public void selectButton(Button btn){
@@ -86,6 +88,13 @@ public class UIController implements Initializable {
         }
         btn.getStyleClass().add("btn_black");
         selectedBtn = btn;
+    }
+
+    @FXML
+    private void exit(ActionEvent e)
+    {
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML

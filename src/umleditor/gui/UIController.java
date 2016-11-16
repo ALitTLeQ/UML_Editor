@@ -74,10 +74,10 @@ public class UIController implements Initializable {
         root.getChildren().addAll(pullLine, multiSelectRect );
 
         /*
-        addObject(50, 50);
-        addObject(200, 50);
-        addObject(50, 230);
-        addObject(200, 230);
+        addBasicObject(50, 50);
+        addBasicObject(200, 50);
+        addBasicObject(50, 230);
+        addBasicObject(200, 230);
         */
     }
 
@@ -210,7 +210,7 @@ public class UIController implements Initializable {
         return bounds;
     }
 
-    public void addObject(double x, double y){
+    public void addBasicObject(double x, double y){
         BasicObject newObject = ObjectFactory.create(objectType, x, y);
         objects.add(newObject);
         System.out.println("create");

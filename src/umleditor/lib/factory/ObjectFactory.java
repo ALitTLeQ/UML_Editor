@@ -6,6 +6,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -26,11 +27,13 @@ import java.util.ArrayList;
 public class ObjectFactory {
 
     public static MouseEventHandler handler = DefaultMouseEventHandler.instance();
+    public static double width = 80;
+    public static Paint backgroundColor = Paint.valueOf("E4E4E4");
 
     public static BasicObject create(BasicObject.Type type , double x, double y) {
         BasicObject g = new BasicObject();
         Text text = new Text("");
-        double width = 80;
+
 
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Font.font(18));
@@ -40,7 +43,7 @@ public class ObjectFactory {
         {
             Rectangle rectOutter = new Rectangle(width, 90);
             rectOutter.setStroke(Color.BLACK);
-            rectOutter.setFill(Color.WHITESMOKE);
+            rectOutter.setFill(backgroundColor);
 
             Rectangle rectInner = new Rectangle(width, 30);
             rectInner.setStroke(Color.BLACK);
@@ -57,7 +60,7 @@ public class ObjectFactory {
             double ellipseWidth = width - 25;
             Ellipse ellipse = new Ellipse(ellipseWidth, 25);
             ellipse.setStroke(Color.BLACK);
-            ellipse.setFill(Color.WHITESMOKE);
+            ellipse.setFill(backgroundColor);
 
             ellipse.setLayoutX(ellipse.getRadiusX());
             ellipse.setLayoutY(ellipse.getRadiusY());

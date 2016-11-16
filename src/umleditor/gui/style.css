@@ -13,6 +13,10 @@
     -fx-background-color: black;
 }
 
+#pane {
+    -fx-background-color: #FDFDFD;
+}
+
 #select {
     -fx-background-image: url("../res/select.png");
 }

@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="440.0" maxWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umleditor.gui.UIController">
+<Pane id="pane" maxHeight="440.0" maxWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umleditor.gui.UIController">
    <children>
       <BorderPane maxHeight="440.0" maxWidth="600.0" prefHeight="440.0" prefWidth="600.0">
          <top>

@@ -29,7 +29,7 @@ public class Composite extends Entity {
         show = new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
         show.setFill(Color.TRANSPARENT);
         show.setStroke(Color.RED);
-        show.setStrokeWidth(2);
+        show.setStrokeWidth(1.5);
         show.toFront();
 
         this.getChildren().add(show);

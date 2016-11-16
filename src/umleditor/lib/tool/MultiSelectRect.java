@@ -1,4 +1,4 @@
-package umleditor.lib.object;
+package umleditor.lib.tool;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -11,7 +11,7 @@ import static java.lang.Math.min;
  * Created by ee830804 on 2016/11/16.
  */
 public class MultiSelectRect extends Rectangle {
-    public MultiSelectRect(double x, double y, double w, double h){
+    public MultiSelectRect(double x, double y, double w, double h) {
         super(x, y, w, h);
 
         this.setStroke(Color.BLUE);
@@ -20,7 +20,7 @@ public class MultiSelectRect extends Rectangle {
         this.setFill(Color.LIGHTBLUE.deriveColor(0, 1.2, 1, 0.6));
     }
 
-    public void setRegion(double x1, double y1, double x2, double y2){
+    public void setRegion(double x1, double y1, double x2, double y2) {
         double minX = min(x1,x2);
         double minY = min(y1,y2);
         double maxX = max(x1,x2);
@@ -32,7 +32,7 @@ public class MultiSelectRect extends Rectangle {
         this.setHeight(maxY - minY);
     }
 
-    public void initialize(){
+    public void initialize() {
         this.setWidth(0);
         this.setHeight(0);
         this.setVisible(false);

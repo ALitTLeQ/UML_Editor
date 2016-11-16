@@ -17,8 +17,8 @@ import umleditor.lib.factory.ConnectionFactory;
 import umleditor.lib.factory.ObjectFactory;
 import umleditor.lib.handler.DefaultMouseEventHandler;
 import umleditor.lib.handler.MouseEventHandler;
-import umleditor.lib.connection.AuxiliaryLine;
-import umleditor.lib.object.MultiSelectRect;
+import umleditor.lib.tool.AuxiliaryLine;
+import umleditor.lib.tool.MultiSelectRect;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class UIController implements Initializable{
     private Bounds bounds;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(URL location, ResourceBundle resources) {
         MouseEventHandler handler = DefaultMouseEventHandler.instance();
         handler.setUIController(this);
 
@@ -62,7 +62,7 @@ public class UIController implements Initializable{
 
     }
 
-    public void selectButton(Button btn){
+    public void selectButton(Button btn) {
         if(selectedBtn != null) {
             selectedBtn.getStyleClass().remove("btn_black");
         }
@@ -77,14 +77,14 @@ public class UIController implements Initializable{
     }
 
     @FXML
-    private void selectClick(ActionEvent e){
+    private void selectClick(ActionEvent e) {
         mode = Mode.SELECT;
         selectButton(((Button)e.getSource()));
         e.consume();
     }
 
     @FXML
-    private void connectionClick(ActionEvent e){
+    private void connectionClick(ActionEvent e) {
         mode = Mode.CONNECTION;
 
         String connectionId = ((Button) e.getSource()).getId();
@@ -103,7 +103,7 @@ public class UIController implements Initializable{
     }
 
     @FXML
-    private void objectClick(ActionEvent e){
+    private void objectClick(ActionEvent e) {
         mode = Mode.OBJECT;
 
         String objectId = ((Button) e.getSource()).getId();
@@ -119,9 +119,9 @@ public class UIController implements Initializable{
     }
 
     @FXML
-    public void changObjectName(ActionEvent e){
+    public void changObjectName(ActionEvent e) {
         if(selectedObjects.size() == 1) {
-            if(selectedObjects.get(0) instanceof BasicObject){
+            if(selectedObjects.get(0) instanceof BasicObject) {
                 BasicObject obj = (BasicObject)selectedObjects.get(0);
                 TextInputDialog dialog = new TextInputDialog(obj.getName());
                 dialog.setTitle("Edit");
@@ -135,7 +135,7 @@ public class UIController implements Initializable{
     }
 
     @FXML
-    public void groupObjects(ActionEvent e){
+    public void groupObjects(ActionEvent e) {
         if(selectedObjects.size() > 0) {
             Composite composite = ObjectFactory.createComposite(selectedObjects);
             objects.removeAll(composite.getChildren());
@@ -145,9 +145,9 @@ public class UIController implements Initializable{
     }
 
     @FXML
-    public void ungroupObjects(ActionEvent e){
+    public void ungroupObjects(ActionEvent e) {
         if(selectedObjects.size() == 1) {
-            if(selectedObjects.get(0) instanceof Composite){
+            if(selectedObjects.get(0) instanceof Composite) {
                 Composite composite = (Composite)selectedObjects.get(0);
                 Group parent = (Group)composite.getParent();
 
@@ -163,22 +163,22 @@ public class UIController implements Initializable{
 
     }
 
-    public ArrayList<Entity> getObjects(){
+    public ArrayList<Entity> getObjects() {
         return objects;
     }
 
-    public Bounds getBounds(){
+    public Bounds getBounds() {
         return bounds;
     }
 
-    public void addBasicObject(double x, double y){
+    public void addBasicObject(double x, double y) {
         BasicObject newObject = ObjectFactory.create(objectType, x, y);
         objects.add(newObject);
         root.getChildren().add(newObject);
     }
 
-    public void addSelected(Entity obj){
-        if(!selectedObjects.contains(obj)){
+    public void addSelected(Entity obj) {
+        if(!selectedObjects.contains(obj)) {
             obj.onSelected();
             selectedObjects.add(obj);
         }
@@ -189,7 +189,7 @@ public class UIController implements Initializable{
     }
 
     public void clearSelected() {
-        for(Entity obj : objects){
+        for(Entity obj : objects) {
             obj.unSelected();
         }
         selectedObjects.clear();

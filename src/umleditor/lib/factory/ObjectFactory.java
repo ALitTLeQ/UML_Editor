@@ -38,8 +38,7 @@ public class ObjectFactory {
         text.setFont(Font.font(18));
         text.setTextOrigin(VPos.TOP);
 
-        if (type == BasicObject.Type.Class)
-        {
+        if (type == BasicObject.Type.Class) {
             Rectangle rectOutter = new Rectangle(width, 90);
             rectOutter.setStroke(Color.BLACK);
             rectOutter.setFill(backgroundColor);
@@ -54,8 +53,7 @@ public class ObjectFactory {
 
             g.getChildren().addAll(rectOutter, rectInner, text);
         }
-        else if (type == BasicObject.Type.UseCase)
-        {
+        else if (type == BasicObject.Type.UseCase) {
             double ellipseWidth = width - 25;
             Ellipse ellipse = new Ellipse(ellipseWidth, 25);
             ellipse.setStroke(Color.BLACK);
@@ -91,7 +89,6 @@ public class ObjectFactory {
             port.setFill(Color.BLACK);
             ports.getChildren().add(port);
             g.pList.add(port);
-
         }
         g.getChildren().add(ports);
         g.unSelected();
@@ -110,7 +107,7 @@ public class ObjectFactory {
         return g;
     }
 
-    public static Composite createComposite(ArrayList<Entity>objs){
+    public static Composite createComposite(ArrayList<Entity>objs) {
         Composite composite = new Composite();
         composite.addAllObject(objs);
         composite.setOnMousePressed(handler.getOnMousePressedEvent());

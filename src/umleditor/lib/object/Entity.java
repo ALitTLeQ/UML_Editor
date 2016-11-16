@@ -6,7 +6,7 @@ import javafx.scene.Group;
  * Created by ee830804 on 2016/11/4.
  */
 public abstract class Entity extends Group{
-    public Entity(){
+    public Entity() {
         super();
     }
 

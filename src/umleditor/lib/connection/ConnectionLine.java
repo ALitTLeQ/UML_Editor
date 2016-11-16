@@ -19,40 +19,38 @@ public class ConnectionLine extends Group {
     private BasicObject to;
     private int toPortidx;
 
-    public ConnectionLine(){
+    public ConnectionLine() {
         super();
     }
 
-    public void setFrom(BasicObject obj, int idx){
+    public void setFrom(BasicObject obj, int idx) {
         from = obj;
         fromPortidx = idx;
     }
 
-    public void setTo(BasicObject obj, int idx){
+    public void setTo(BasicObject obj, int idx) {
         to = obj;
         toPortidx = idx;
     }
 
-    public Point2D getFromPort()
-    {
+    public Point2D getFromPort() {
         Point2D pTranslate =from.getTranslatePoint();
         Rectangle rect = from.pList.get(fromPortidx);
         return (new Point2D(rect.getX(), rect.getY())).add(pTranslate);
     }
 
-    public Point2D getToPort()
-    {
+    public Point2D getToPort() {
         Point2D pTranslate =to.getTranslatePoint();
         Rectangle rect = to.pList.get(toPortidx);
         return (new Point2D(rect.getX(), rect.getY())).add(pTranslate);
     }
 
-    public void update(){
+    public void update() {
         Point2D fromPort = getFromPort();
         Point2D toPort = getToPort();
 
-        for(Node obj: getChildren()){
-            if(obj instanceof Line){
+        for(Node obj: getChildren()) {
+            if(obj instanceof Line) {
                 Line line = (Line)obj;
                 line.setStartX(fromPort.getX());
                 line.setStartY(fromPort.getY());

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by ee830804 on 2016/10/30.
  */
-public class BasicObject extends Entity{
+public class BasicObject extends Entity {
     public enum Type {Class, UseCase};
 
     private Text name;
@@ -30,10 +30,10 @@ public class BasicObject extends Entity{
         pList = new ArrayList<>();
     }
 
-    public void addConnectionFrom(ConnectionLine c){
+    public void addConnectionFrom(ConnectionLine c) {
         connectionFrom.add(c);
     }
-    public void addConnectionTo(ConnectionLine c){
+    public void addConnectionTo(ConnectionLine c) {
         connectionTo.add(c);
     }
     public ArrayList<ConnectionLine> getConnectionFrom() {
@@ -64,7 +64,7 @@ public class BasicObject extends Entity{
         offsetY = y;
     }
 
-    public void updateConnection(){
+    public void updateConnection() {
         for (ConnectionLine c : this.getConnectionFrom()) {
             c.update();
         }
@@ -77,7 +77,7 @@ public class BasicObject extends Entity{
         return name.getText();
     }
 
-    public Point2D getTranslatePoint(){
+    public Point2D getTranslatePoint() {
         return new Point2D(offsetX+this.getTranslateX(), offsetY+this.getTranslateY());
     }
 

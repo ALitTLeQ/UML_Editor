@@ -14,11 +14,11 @@ import java.util.Arrays;
 public class Composite extends Entity {
     private Rectangle show;
 
-    public Composite(){
+    public Composite() {
         super();
     }
 
-    public void addAllObject(ArrayList<Entity>objList){
+    public void addAllObject(ArrayList<Entity>objList) {
         for(Entity obj: objList)
         {
             this.getChildren().add(obj);
@@ -42,35 +42,35 @@ public class Composite extends Entity {
         this.updateChildrenOffset(this.getTranslateX(), this.getTranslateY());
     }
 
-    public void updateChildrenOffset(double offsetX, double offsetY){
-        for(Node obj : this.getChildren()){
+    public void updateChildrenOffset(double offsetX, double offsetY) {
+        for(Node obj : this.getChildren()) {
             if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setOffset(offsetX, offsetY);
 
                 ((BasicObject)obj).updateConnection();
             }
-            else if(obj instanceof Composite){
+            else if(obj instanceof Composite) {
                 Composite composite = ((Composite)obj);
                 composite.updateChildrenOffset(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
             }
         }
     }
 
-    public void unGroup(){
+    public void unGroup() {
         this.getChildren().remove(show);
 
         double offsetX = this.getTranslateX();
         double offsetY = this.getTranslateY();
 
-        for(Node obj : this.getChildren()){
+        for(Node obj : this.getChildren()) {
             if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setTranslate(offsetX+ basicObject.getTranslateX(), offsetY + basicObject.getTranslateY());
                 basicObject.setOffset(0, 0);
                 basicObject.updateConnection();
             }
-            else if(obj instanceof Composite){
+            else if(obj instanceof Composite) {
                 Composite composite = ((Composite)obj);
                 composite.setTranslate(offsetX+ composite.getTranslateX(), offsetY + composite.getTranslateY());
             }
@@ -79,13 +79,13 @@ public class Composite extends Entity {
 
     }
 
-    public ArrayList<Entity> getSiblingObjects(){
+    public ArrayList<Entity> getSiblingObjects() {
         ArrayList<Entity> objects= new ArrayList<>();
-        for(Node obj : this.getChildren()){
+        for(Node obj : this.getChildren()) {
             if(obj instanceof BasicObject) {
                 objects.add((BasicObject)obj);
             }
-            else if(obj instanceof Composite){
+            else if(obj instanceof Composite) {
                 objects.add((Composite)obj);
             }
         }
@@ -94,14 +94,14 @@ public class Composite extends Entity {
 
     @Override
     public void onSelected() {
-        for(Entity obj : this.getSiblingObjects()){
+        for(Entity obj : this.getSiblingObjects()) {
             obj.onSelected();
         }
     }
 
     @Override
     public void unSelected() {
-        for(Entity obj : this.getSiblingObjects()){
+        for(Entity obj : this.getSiblingObjects()) {
             obj.unSelected();
         }
     }

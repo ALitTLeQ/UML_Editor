@@ -32,7 +32,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
     private int fromPortIdx;
 
     @Override
-    public void setUIController(UIController uic){
+    public void setUIController(UIController uic) {
         this.uiController = uic;
     }
 
@@ -67,7 +67,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         e.consume();
                     }
                     else if(uiController.mode == UIController.Mode.CONNECTION
-                            && entity instanceof BasicObject){
+                            && entity instanceof BasicObject) {
                         // only connect basicObjects
                         uiController.auxiliaryLine.initialize(translateX + e.getX(), translateY + e.getY());
                     }
@@ -83,7 +83,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             @Override
             public void handle(MouseEvent e) {
 
-                if(uiController.mode == UIController.Mode.CONNECTION){
+                if(uiController.mode == UIController.Mode.CONNECTION) {
                     BasicObject dragObject = (BasicObject) (e.getSource());
                     fromObject = dragObject;
                     fromPortIdx = choosePort(dragObject, e.getX(), e.getY());
@@ -132,7 +132,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
 
                     }
                     else if(uiController.mode == UIController.Mode.CONNECTION
-                            && entity instanceof BasicObject){
+                            && entity instanceof BasicObject) {
                         uiController.auxiliaryLine.toFront();
                         uiController.auxiliaryLine.setEnd(translateX + e.getX(), translateY + e.getY());
                     }

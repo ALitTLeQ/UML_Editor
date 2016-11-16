@@ -38,13 +38,11 @@ public class ConnectionFactory {
         g.getChildren().add(line);
 
         // render Symbol
-        if(type == ConnectionLine.Type.GENERALIZATION)
-        {
+        if(type == ConnectionLine.Type.GENERALIZATION) {
             Triangle triangle = new Triangle(fromPort.getX(), toPort.getX(), fromPort.getY(), toPort.getY());
             g.getChildren().add(triangle);
         }
-        else if(type == ConnectionLine.Type.COMPOSITION)
-        {
+        else if(type == ConnectionLine.Type.COMPOSITION) {
             Diamond diamond = new Diamond(fromPort.getX(), toPort.getX(), fromPort.getY(), toPort.getY());
             g.getChildren().add(diamond);
         }

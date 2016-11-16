@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class UIController implements Initializable {
+public class UIController implements Initializable{
     public enum Mode { SELECT, CONNECTION, OBJECT };
     public Mode mode = null;
     private BasicObject.Type objectType = BasicObject.Type.Class;
@@ -36,7 +36,7 @@ public class UIController implements Initializable {
     public static ArrayList<Entity> selectedObjects = new ArrayList<>();
 
     public MultiSelectRect multiSelectRect;
-    public AuxiliaryLine alignedLine;
+    public AuxiliaryLine auxiliaryLine;
 
     @FXML
     private Pane pane;
@@ -46,7 +46,7 @@ public class UIController implements Initializable {
     private Bounds bounds;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
         MouseEventHandler handler = DefaultMouseEventHandler.instance();
         handler.setUIController(this);
 
@@ -56,15 +56,14 @@ public class UIController implements Initializable {
         bounds = pane.getBoundsInLocal();
 
         multiSelectRect = new MultiSelectRect(0, 0, 0, 0);
-        alignedLine = new AuxiliaryLine(0, 0, 0, 0);
+        auxiliaryLine = new AuxiliaryLine(0, 0, 0, 0);
 
-        root.getChildren().addAll(alignedLine, multiSelectRect );
+        root.getChildren().addAll(auxiliaryLine, multiSelectRect );
 
     }
 
     public void selectButton(Button btn){
-        if(selectedBtn != null)
-        {
+        if(selectedBtn != null) {
             selectedBtn.getStyleClass().remove("btn_black");
         }
         btn.getStyleClass().add("btn_black");
@@ -72,63 +71,57 @@ public class UIController implements Initializable {
     }
 
     @FXML
-    private void exit(ActionEvent e)
-    {
+    private void exit(ActionEvent e) {
         Platform.exit();
         System.exit(0);
     }
 
     @FXML
-    private void selectClick(ActionEvent e)
-    {
+    private void selectClick(ActionEvent e){
         mode = Mode.SELECT;
         selectButton(((Button)e.getSource()));
         e.consume();
     }
 
     @FXML
-    private void connectionClick(ActionEvent e) {
+    private void connectionClick(ActionEvent e){
         mode = Mode.CONNECTION;
+
         String connectionId = ((Button) e.getSource()).getId();
-        if(connectionId.equals("association"))
-        {
+        if(connectionId.equals("association")) {
             connectionType = ConnectionLine.Type.ASSOCIATION;
         }
-        else if(connectionId.equals("generalization"))
-        {
+        else if(connectionId.equals("generalization")) {
             connectionType = ConnectionLine.Type.GENERALIZATION;
         }
-        else if(connectionId.equals("composition"))
-        {
+        else if(connectionId.equals("composition")) {
             connectionType = ConnectionLine.Type.COMPOSITION;
         }
         selectButton(((Button)e.getSource()));
+
         e.consume();
     }
 
     @FXML
-    private void objectClick(ActionEvent e) {
+    private void objectClick(ActionEvent e){
         mode = Mode.OBJECT;
+
         String objectId = ((Button) e.getSource()).getId();
-        if(objectId.equals("class"))
-        {
+        if(objectId.equals("class")) {
             objectType = BasicObject.Type.Class;
         }
-        else if(objectId.equals("useCase"))
-        {
+        else if(objectId.equals("useCase")) {
             objectType = BasicObject.Type.UseCase;
         }
         selectButton(((Button)e.getSource()));
+
         e.consume();
     }
 
     @FXML
-    public void changObjectName(ActionEvent e)
-    {
-        if(selectedObjects.size() == 1)
-        {
-            if(selectedObjects.get(0) instanceof BasicObject)
-            {
+    public void changObjectName(ActionEvent e){
+        if(selectedObjects.size() == 1) {
+            if(selectedObjects.get(0) instanceof BasicObject){
                 BasicObject obj = (BasicObject)selectedObjects.get(0);
                 TextInputDialog dialog = new TextInputDialog(obj.getName());
                 dialog.setTitle("Edit");
@@ -136,19 +129,14 @@ public class UIController implements Initializable {
                 dialog.setContentText("Please enter the object's name:");
 
                 Optional<String> result = dialog.showAndWait();
-
                 result.ifPresent(name -> obj.setName(name));
             }
         }
-
-
     }
 
     @FXML
-    public void groupObjects(ActionEvent e)
-    {
-        if(selectedObjects.size() > 0)
-        {
+    public void groupObjects(ActionEvent e){
+        if(selectedObjects.size() > 0) {
             Composite composite = ObjectFactory.createComposite(selectedObjects);
             objects.removeAll(composite.getChildren());
             objects.add(composite);
@@ -157,16 +145,10 @@ public class UIController implements Initializable {
     }
 
     @FXML
-    public void ungroupObjects(ActionEvent e)
-    {
-        if(selectedObjects.size() == 1)
-        {
-            if(selectedObjects.get(0) instanceof Composite)
-            {
-
-                System.out.println(selectedObjects.get(0));
+    public void ungroupObjects(ActionEvent e){
+        if(selectedObjects.size() == 1) {
+            if(selectedObjects.get(0) instanceof Composite){
                 Composite composite = (Composite)selectedObjects.get(0);
-
                 Group parent = (Group)composite.getParent();
 
                 composite.unGroup();
@@ -176,8 +158,6 @@ public class UIController implements Initializable {
 
                 parent.getChildren().addAll(composite.getChildren());
                 parent.getChildren().remove(composite);
-
-
             }
         }
 
@@ -194,26 +174,21 @@ public class UIController implements Initializable {
     public void addBasicObject(double x, double y){
         BasicObject newObject = ObjectFactory.create(objectType, x, y);
         objects.add(newObject);
-        System.out.println("create");
         root.getChildren().add(newObject);
     }
 
     public void addSelected(Entity obj){
-        if(!selectedObjects.contains(obj))
-        {
+        if(!selectedObjects.contains(obj)){
             obj.onSelected();
             selectedObjects.add(obj);
         }
-
     }
 
-    public void addConnection(BasicObject fromObject, int fromPortIdx, BasicObject toObject, int toPortIdx)
-    {
+    public void addConnection(BasicObject fromObject, int fromPortIdx, BasicObject toObject, int toPortIdx) {
         root.getChildren().add(ConnectionFactory.create(connectionType, fromObject, fromPortIdx, toObject, toPortIdx));
     }
 
-    public void clearSelected()
-    {
+    public void clearSelected() {
         for(Entity obj : objects){
             obj.unSelected();
         }

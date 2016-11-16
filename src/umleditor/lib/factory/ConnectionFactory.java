@@ -37,11 +37,8 @@ public class ConnectionFactory {
 
         g.getChildren().add(line);
 
-        if(type == ConnectionLine.Type.ASSOCIATION)
-        {
-
-        }
-        else if(type == ConnectionLine.Type.GENERALIZATION)
+        // render Symbol
+        if(type == ConnectionLine.Type.GENERALIZATION)
         {
             Triangle triangle = new Triangle(fromPort.getX(), toPort.getX(), fromPort.getY(), toPort.getY());
             g.getChildren().add(triangle);

@@ -8,7 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import umleditor.gui.UIController;
 import umleditor.lib.object.BasicObject;
-import umleditor.lib.object.Composite;
 import umleditor.lib.object.Entity;
 
 
@@ -51,7 +50,6 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 if(e.getSource() instanceof Pane) {
                     if(uiController.mode == UIController.Mode.SELECT) {
                         uiController.clearSelected();
-
                     }
                     else if(uiController.mode == UIController.Mode.OBJECT) {
                         uiController.addBasicObject(e.getX(), e.getY());
@@ -63,13 +61,15 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     translateY = entity.getTranslateY();
 
                     if(uiController.mode == UIController.Mode.SELECT) {
+                        // select entity
                         uiController.clearSelected();
                         uiController.addSelected(entity);
                         e.consume();
                     }
-                    else if(uiController.mode == UIController.Mode.CONNECTION &&
-                            entity instanceof BasicObject){
-                        uiController.alignedLine.initialize(translateX + e.getX(), translateY + e.getY());
+                    else if(uiController.mode == UIController.Mode.CONNECTION
+                            && entity instanceof BasicObject){
+                        // only connect basicObjects
+                        uiController.auxiliaryLine.initialize(translateX + e.getX(), translateY + e.getY());
                     }
                 }
                 e.consume();
@@ -111,15 +111,15 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         uiController.multiSelectRect.toFront();
                         uiController.multiSelectRect.setRegion(e.getX(), e.getY(), beginLocalX, beginLocalY);
                     }
-                    e.consume();
                 }
                 else if(e.getSource() instanceof Entity) {
                     Entity entity = (Entity) (e.getSource());
 
                     if(uiController.mode == UIController.Mode.SELECT) {
-
+                        // move entity
                         entity.setTranslate(newTranslateX, newTranslateY);
-                        // set entities movable area
+
+                        // set entity movable area
                         double dx = uiController.getBounds().getMinX() - entity.getBoundsInParent().getMinX();
                         double dy = uiController.getBounds().getMinY() - entity.getBoundsInParent().getMinY();
                         if(dx >= 0) {
@@ -131,13 +131,13 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         entity.setTranslate(newTranslateX, newTranslateY);
 
                     }
-                    else if(uiController.mode == UIController.Mode.CONNECTION &&
-                            entity instanceof BasicObject){
-                        uiController.alignedLine.toFront();
-                        uiController.alignedLine.setEnd(translateX + e.getX(), translateY + e.getY());
+                    else if(uiController.mode == UIController.Mode.CONNECTION
+                            && entity instanceof BasicObject){
+                        uiController.auxiliaryLine.toFront();
+                        uiController.auxiliaryLine.setEnd(translateX + e.getX(), translateY + e.getY());
                     }
-                    e.consume();
                 }
+                e.consume();
 
             }
         };
@@ -150,7 +150,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             public void handle(MouseEvent e) {
                 if(e.getSource() instanceof Pane) {
                     if(uiController.mode == UIController.Mode.SELECT) {
-
+                        // multi select
                         Bounds selectBounds = uiController.multiSelectRect.getBoundsInParent();
                         uiController.clearSelected();
 
@@ -161,17 +161,12 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                             }
                         }
                         uiController.multiSelectRect.initialize();
-
-                    }
-                }
-                else if(e.getSource() instanceof Composite) {
-                    if (uiController.mode == UIController.Mode.SELECT) {
-                        e.consume();
                     }
                 }
                 else if(e.getSource() instanceof BasicObject) {
                     if (uiController.mode == UIController.Mode.CONNECTION) {
-                        uiController.alignedLine.initialize(0, 0);
+                        // release auxiliary line
+                        uiController.auxiliaryLine.initialize(0, 0);
 
                         BasicObject releasedObject = (BasicObject) (e.getSource());
                         releasedObject.setMouseTransparent(false);
@@ -187,8 +182,8 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
+                // create connection line
                 BasicObject dropObject = (BasicObject) (e.getSource());
-
                 int toPortIdx = choosePort(dropObject, e.getX(), e.getY());
                 uiController.addConnection(fromObject, fromPortIdx, dropObject, toPortIdx);
 
@@ -198,6 +193,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
     }
 
     public int choosePort(BasicObject obj, double x, double y) {
+        // choose nearest port
         Point2D mousePoint = new Point2D(x, y);
         Rectangle port = new Rectangle(0, 0);
         double minDist = Double.MAX_VALUE;

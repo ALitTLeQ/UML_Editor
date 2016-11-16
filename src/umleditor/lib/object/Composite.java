@@ -33,7 +33,6 @@ public class Composite extends Entity {
         show.toFront();
 
         this.getChildren().add(show);
-        System.out.println(this.getTranslateX());
     }
 
     @Override
@@ -45,8 +44,7 @@ public class Composite extends Entity {
 
     public void updateChildrenOffset(double offsetX, double offsetY){
         for(Node obj : this.getChildren()){
-            if(obj instanceof BasicObject)
-            {
+            if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setOffset(offsetX, offsetY);
 
@@ -66,8 +64,7 @@ public class Composite extends Entity {
         double offsetY = this.getTranslateY();
 
         for(Node obj : this.getChildren()){
-            if(obj instanceof BasicObject)
-            {
+            if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setTranslate(offsetX+ basicObject.getTranslateX(), offsetY + basicObject.getTranslateY());
                 basicObject.setOffset(0, 0);
@@ -85,8 +82,7 @@ public class Composite extends Entity {
     public ArrayList<Entity> getSiblingObjects(){
         ArrayList<Entity> objects= new ArrayList<>();
         for(Node obj : this.getChildren()){
-            if(obj instanceof BasicObject)
-            {
+            if(obj instanceof BasicObject) {
                 objects.add((BasicObject)obj);
             }
             else if(obj instanceof Composite){
@@ -97,16 +93,14 @@ public class Composite extends Entity {
     }
 
     @Override
-    public void onSelected()
-    {
+    public void onSelected() {
         for(Entity obj : this.getSiblingObjects()){
             obj.onSelected();
         }
     }
 
     @Override
-    public void unSelected()
-    {
+    public void unSelected() {
         for(Entity obj : this.getSiblingObjects()){
             obj.unSelected();
         }

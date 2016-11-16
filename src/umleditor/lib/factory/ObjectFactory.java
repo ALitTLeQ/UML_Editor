@@ -34,7 +34,6 @@ public class ObjectFactory {
         BasicObject g = new BasicObject();
         Text text = new Text("");
 
-
         text.setTextAlignment(TextAlignment.CENTER);
         text.setFont(Font.font(18));
         text.setTextOrigin(VPos.TOP);
@@ -71,9 +70,9 @@ public class ObjectFactory {
 
             g.getChildren().addAll(ellipse, text);
         }
-
         g.setNameText(text);
-        /* add ports */
+
+        // add ports
         Group ports = new Group();
         ports.relocate(-5, -5);
         Bounds bounds = g.getBoundsInLocal();
@@ -90,17 +89,14 @@ public class ObjectFactory {
             Rectangle port = new Rectangle(p.getX(), p.getY(), 10, 10);
 
             port.setFill(Color.BLACK);
-            //port.relocate(p.getX(), p.getY());
             ports.getChildren().add(port);
             g.pList.add(port);
 
         }
-        System.out.println(g.pList.toString());
-
         g.getChildren().add(ports);
         g.unSelected();
 
-        /* add eventHandler */
+        // add eventHandler
         g.setOnMousePressed(handler.getOnMousePressedEvent());
         g.setOnMouseDragged(handler.getOnMouseDraggedEvent());
         g.setOnMouseReleased(handler.getOnMouseReleasedEvent());
@@ -120,7 +116,6 @@ public class ObjectFactory {
         composite.setOnMousePressed(handler.getOnMousePressedEvent());
         composite.setOnMouseDragged(handler.getOnMouseDraggedEvent());
         composite.setOnMouseReleased(handler.getOnMouseReleasedEvent());
-
         composite.setCursor(Cursor.HAND);
 
         return composite;

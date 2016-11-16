@@ -47,7 +47,6 @@ public class BasicObject extends Entity{
     {
         name.setText(_name);
     }
-
     public void setNameText(Text _text)
     {
         name = _text;
@@ -74,8 +73,7 @@ public class BasicObject extends Entity{
         }
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name.getText();
     }
 
@@ -84,24 +82,18 @@ public class BasicObject extends Entity{
     }
 
     @Override
-    public void onSelected()
-    {
-        for(Node obj : getChildren())
-        {
-            if(obj instanceof Group)
-            {
+    public void onSelected() {
+        for(Node obj : getChildren()) {
+            if(obj instanceof Group) {
                 obj.setStyle("visibility: visible;");
             }
         }
     }
 
     @Override
-    public void unSelected()
-    {
-        for(Node obj : getChildren())
-        {
-            if(obj instanceof Group)
-            {
+    public void unSelected() {
+        for(Node obj : getChildren()) {
+            if(obj instanceof Group) {
                 obj.setStyle("visibility: hidden;");
             }
         }

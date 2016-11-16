@@ -6,8 +6,8 @@ import javafx.scene.shape.Line;
 /**
  * Created by ee830804 on 2016/11/16.
  */
-public class AlignedLine extends Line {
-    public AlignedLine(double startX, double startY, double endX, double endY){
+public class AuxiliaryLine extends Line {
+    public AuxiliaryLine(double startX, double startY, double endX, double endY){
         super(startX, startY, endX, endY);
 
         this.setStroke(Color.GRAY);
@@ -25,7 +25,7 @@ public class AlignedLine extends Line {
         this.setEndY(y);
     }
 
-    public void setInitial(double x, double y){
+    public void initialize(double x, double y){
         this.setStart(x, y);
         this.setEnd(x, y);
     }

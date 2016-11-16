@@ -9,9 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
 import umleditor.lib.object.BasicObject;
 import umleditor.lib.object.Composite;
 import umleditor.lib.object.Entity;
@@ -20,7 +17,8 @@ import umleditor.lib.factory.ConnectionFactory;
 import umleditor.lib.factory.ObjectFactory;
 import umleditor.lib.handler.DefaultMouseEventHandler;
 import umleditor.lib.handler.MouseEventHandler;
-import umleditor.lib.connection.AlignedLine;
+import umleditor.lib.connection.AuxiliaryLine;
+import umleditor.lib.object.MultiSelectRect;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,8 +35,8 @@ public class UIController implements Initializable {
     public static ArrayList<Entity> objects = new ArrayList<>();
     public static ArrayList<Entity> selectedObjects = new ArrayList<>();
 
-    public Rectangle multiSelectRect;
-    public AlignedLine alignedLine;
+    public MultiSelectRect multiSelectRect;
+    public AuxiliaryLine alignedLine;
 
     @FXML
     private Pane pane;
@@ -57,16 +55,8 @@ public class UIController implements Initializable {
         pane.setOnMouseReleased(handler.getOnMouseReleasedEvent());
         bounds = pane.getBoundsInLocal();
 
-        multiSelectRect = new Rectangle(0, 0, 0, 0);
-        multiSelectRect.setStroke(Color.BLUE);
-        multiSelectRect.setStrokeWidth(1);
-        multiSelectRect.setStrokeLineCap(StrokeLineCap.ROUND);
-        multiSelectRect.setFill(Color.LIGHTBLUE.deriveColor(0, 1.2, 1, 0.6));
-
-        alignedLine = new AlignedLine(0, 0, 0, 0);
-
-
-        pane.setStyle("-fx-background-color: #FFFFFF;");
+        multiSelectRect = new MultiSelectRect(0, 0, 0, 0);
+        alignedLine = new AuxiliaryLine(0, 0, 0, 0);
 
         root.getChildren().addAll(alignedLine, multiSelectRect );
 

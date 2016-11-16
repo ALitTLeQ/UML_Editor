@@ -11,8 +11,6 @@ import umleditor.lib.object.BasicObject;
 import umleditor.lib.object.Composite;
 import umleditor.lib.object.Entity;
 
-import static java.lang.Math.*;
-
 
 /**
  * Created by ee830804 on 2016/10/30.
@@ -71,7 +69,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     }
                     else if(uiController.mode == UIController.Mode.CONNECTION &&
                             entity instanceof BasicObject){
-                        uiController.alignedLine.setInitial(translateX + e.getX(), translateY + e.getY());
+                        uiController.alignedLine.initialize(translateX + e.getX(), translateY + e.getY());
                     }
                 }
                 e.consume();
@@ -110,16 +108,8 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
 
                 if(e.getSource() instanceof Pane) {
                     if(uiController.mode == UIController.Mode.SELECT) {
-                        double minX = min(e.getX(),beginLocalX);
-                        double minY = min(e.getY(),beginLocalY);
-                        double maxX = max(e.getX(),beginLocalX);
-                        double maxY = max(e.getY(),beginLocalY);
-
                         uiController.multiSelectRect.toFront();
-                        uiController.multiSelectRect.setVisible(true);
-                        uiController.multiSelectRect.relocate(minX, minY);
-                        uiController.multiSelectRect.setWidth(maxX - minX);
-                        uiController.multiSelectRect.setHeight(maxY - minY);
+                        uiController.multiSelectRect.setRegion(e.getX(), e.getY(), beginLocalX, beginLocalY);
                     }
                     e.consume();
                 }
@@ -132,12 +122,10 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         // set entities movable area
                         double dx = uiController.getBounds().getMinX() - entity.getBoundsInParent().getMinX();
                         double dy = uiController.getBounds().getMinY() - entity.getBoundsInParent().getMinY();
-                        if(dx >= 0)
-                        {
+                        if(dx >= 0) {
                             newTranslateX = entity.getTranslateX() + dx + 5;
                         }
-                        if(dy >= 0)
-                        {
+                        if(dy >= 0) {
                             newTranslateY = entity.getTranslateY() + dy + 5;
                         }
                         entity.setTranslate(newTranslateX, newTranslateY);
@@ -166,17 +154,13 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         Bounds selectBounds = uiController.multiSelectRect.getBoundsInParent();
                         uiController.clearSelected();
 
-                        for(Entity obj : uiController.getObjects())
-                        {
+                        for(Entity obj : uiController.getObjects()) {
                             if(selectBounds.contains(obj.getBoundsInParent()))
                             {
                                 uiController.addSelected(obj);
                             }
                         }
-
-                        uiController.multiSelectRect.setWidth(0);
-                        uiController.multiSelectRect.setHeight(0);
-                        uiController.multiSelectRect.setVisible(false);
+                        uiController.multiSelectRect.initialize();
 
                     }
                 }
@@ -187,8 +171,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 }
                 else if(e.getSource() instanceof BasicObject) {
                     if (uiController.mode == UIController.Mode.CONNECTION) {
-
-                        uiController.alignedLine.setInitial(0, 0);
+                        uiController.alignedLine.initialize(0, 0);
 
                         BasicObject releasedObject = (BasicObject) (e.getSource());
                         releasedObject.setMouseTransparent(false);
@@ -219,11 +202,9 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
         Rectangle port = new Rectangle(0, 0);
         double minDist = Double.MAX_VALUE;
 
-        for(Rectangle rect : obj.pList)
-        {
+        for(Rectangle rect : obj.pList) {
             Point2D fp = new Point2D(rect.getX(), rect.getY());
-            if(fp.distance(mousePoint) < minDist)
-            {
+            if(fp.distance(mousePoint) < minDist) {
                 port = rect;
                 minDist = fp.distance(mousePoint);
             }

@@ -136,7 +136,7 @@ public class UIController implements Initializable{
 
     @FXML
     public void groupObjects(ActionEvent e) {
-        if(selectedObjects.size() > 0) {
+        if(selectedObjects.size() >= 2) {
             Composite composite = ObjectFactory.createComposite(selectedObjects);
             objects.removeAll(composite.getChildren());
             objects.add(composite);

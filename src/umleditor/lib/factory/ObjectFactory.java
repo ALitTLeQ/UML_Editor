@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -39,9 +40,8 @@ public class ObjectFactory {
         text.setTextOrigin(VPos.TOP);
 
         if (type == BasicObject.Type.Class) {
-            Rectangle rectOutter = new Rectangle(width, 90);
+            Rectangle rectOutter = new Rectangle(width, 90, backgroundColor);
             rectOutter.setStroke(Color.BLACK);
-            rectOutter.setFill(backgroundColor);
 
             Rectangle rectInner = new Rectangle(width, 30);
             rectInner.setStroke(Color.BLACK);
@@ -49,7 +49,6 @@ public class ObjectFactory {
             rectInner.setY(30);
 
             text.setWrappingWidth( rectOutter.getWidth() );
-            text.setText("class");
 
             g.getChildren().addAll(rectOutter, rectInner, text);
         }
@@ -64,7 +63,6 @@ public class ObjectFactory {
 
             text.setY(ellipse.getRadiusY()/2);
             text.setWrappingWidth( ellipse.getLayoutBounds().getWidth() );
-            text.setText("useCase");
 
             g.getChildren().addAll(ellipse, text);
         }

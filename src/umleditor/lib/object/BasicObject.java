@@ -65,12 +65,8 @@ public class BasicObject extends Entity {
     }
 
     public void updateConnection() {
-        for (ConnectionLine connectionLine : this.getConnectionFrom()) {
-            connectionLine.update();
-        }
-        for (ConnectionLine connectionLine : this.getConnectionTo()) {
-            connectionLine.update();
-        }
+        this.getConnectionFrom().forEach(ConnectionLine::update);
+        this.getConnectionTo().forEach(ConnectionLine::update);
     }
 
     public String getName() {

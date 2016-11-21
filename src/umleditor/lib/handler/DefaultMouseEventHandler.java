@@ -22,12 +22,15 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
     public static MouseEventHandler instance() {
         if (INSTANCE == null) {
             INSTANCE = new DefaultMouseEventHandler();
+
         }
         return INSTANCE;
     }
 
     private UIController uiController;
-    private double beginSceneX, beginSceneY, translateX, translateY, beginLocalX, beginLocalY;
+    private Point2D beginScene = new Point2D(0, 0);
+    private Point2D translate = new Point2D(0,0);
+    private Point2D beginLocal = new Point2D(0, 0);
     private BasicObject fromObject;
     private int fromPortIdx;
 
@@ -41,11 +44,8 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-
-                beginSceneX = e.getSceneX();
-                beginSceneY = e.getSceneY();
-                beginLocalX = e.getX();
-                beginLocalY = e.getY();
+                beginScene = new Point2D(e.getSceneX(), e.getSceneY());
+                beginLocal = new Point2D(e.getX(), e.getY());
 
                 if(e.getSource() instanceof Pane) {
                     if(uiController.mode == UIController.Mode.SELECT) {
@@ -57,8 +57,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 }
                 else if(e.getSource() instanceof Entity) {
                     Entity entity = ((Entity) e.getSource());
-                    translateX = entity.getTranslateX();
-                    translateY = entity.getTranslateY();
+                    translate = new Point2D(entity.getTranslateX(), entity.getTranslateY());
 
                     if(uiController.mode == UIController.Mode.SELECT) {
                         // select entity
@@ -69,7 +68,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     else if(uiController.mode == UIController.Mode.CONNECTION
                             && entity instanceof BasicObject) {
                         // only connect basicObjects
-                        uiController.auxiliaryLine.initialize(translateX + e.getX(), translateY + e.getY());
+                        uiController.auxiliaryLine.initialize(translate.getX() + e.getX(), translate.getY() + e.getY());
                     }
                 }
                 e.consume();
@@ -84,12 +83,11 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             public void handle(MouseEvent e) {
 
                 if(uiController.mode == UIController.Mode.CONNECTION) {
-                    BasicObject dragObject = (BasicObject) (e.getSource());
-                    fromObject = dragObject;
-                    fromPortIdx = choosePort(dragObject, e.getX(), e.getY());
+                    fromObject = (BasicObject) (e.getSource());
+                    fromPortIdx = choosePort(fromObject, e.getX(), e.getY());
 
-                    dragObject.startFullDrag();
-                    dragObject.setMouseTransparent(true);
+                    fromObject.startFullDrag();
+                    fromObject.setMouseTransparent(true);
                 }
             }
         };
@@ -100,16 +98,15 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
         return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-
-                double offsetX = e.getSceneX() - beginSceneX;
-                double offsetY = e.getSceneY() - beginSceneY;
-                double newTranslateX = translateX + offsetX;
-                double newTranslateY = translateY + offsetY;
+                double offsetX = e.getSceneX() - beginScene.getX();
+                double offsetY = e.getSceneY() - beginScene.getY();
+                double newTranslateX = translate.getX() + offsetX;
+                double newTranslateY = translate.getY() + offsetY;
 
                 if(e.getSource() instanceof Pane) {
                     if(uiController.mode == UIController.Mode.SELECT) {
                         uiController.multiSelectRect.toFront();
-                        uiController.multiSelectRect.setRegion(e.getX(), e.getY(), beginLocalX, beginLocalY);
+                        uiController.multiSelectRect.setRegion(e.getX(), e.getY(), beginLocal.getX(), beginLocal.getY());
                     }
                 }
                 else if(e.getSource() instanceof Entity) {
@@ -134,7 +131,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     else if(uiController.mode == UIController.Mode.CONNECTION
                             && entity instanceof BasicObject) {
                         uiController.auxiliaryLine.toFront();
-                        uiController.auxiliaryLine.setEnd(translateX + e.getX(), translateY + e.getY());
+                        uiController.auxiliaryLine.setEnd(translate.getX() + e.getX(), translate.getY() + e.getY());
                     }
                 }
                 e.consume();
@@ -181,9 +178,9 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             @Override
             public void handle(MouseEvent e) {
                 // create connection line
-                BasicObject dropObject = (BasicObject) (e.getSource());
-                int toPortIdx = choosePort(dropObject, e.getX(), e.getY());
-                uiController.addConnection(fromObject, fromPortIdx, dropObject, toPortIdx);
+                BasicObject toObject = (BasicObject) (e.getSource());
+                int toPortIdx = choosePort(toObject, e.getX(), e.getY());
+                uiController.addConnection(fromObject, fromPortIdx, toObject, toPortIdx);
 
                 e.consume();
             }
@@ -204,7 +201,6 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             }
         }
         return obj.pList.indexOf(port);
-
     }
 
 }

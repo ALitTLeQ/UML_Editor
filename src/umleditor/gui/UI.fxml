@@ -47,7 +47,7 @@
                         <Insets top="15.0" />
                      </padding>
                   </VBox>
-                  <Pane fx:id="pane" style="-fx-border-color: black;" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                  <Pane fx:id="pane" style="-fx-border-color: black;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="15.0">
                      <children>
                            <Group fx:id="root" style="-fx-background-color: black;" />
                      </children>

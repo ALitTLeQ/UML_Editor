@@ -3,7 +3,6 @@ package umleditor.lib.object;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -44,11 +43,8 @@ public class Composite extends Entity {
 
     @Override
     public void setAbsolute(double offsetX, double offsetY) {
-        this.getChildren().forEach( obj -> {
-            if(obj instanceof Entity) {
-                Entity entity = ((Entity)obj);
-                entity.setAbsolute(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
-            }
+        this.getSiblingObjects().forEach( entity -> {
+            entity.setAbsolute(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
         });
     }
 
@@ -58,19 +54,17 @@ public class Composite extends Entity {
         double offsetX = this.getTranslateX();
         double offsetY = this.getTranslateY();
 
-        this.getChildren().forEach( obj -> {
-            Entity entity = (Entity)obj;
+        this.getSiblingObjects().forEach( entity -> {
             entity.setTranslate(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
 
             // restore absolute
-            if(obj instanceof BasicObject) {
-                BasicObject basicObject = ((BasicObject)obj);
+            if(entity instanceof BasicObject) {
+                BasicObject basicObject = ((BasicObject)entity);
                 Point2D absolute = basicObject.getAbsolute();
                 basicObject.setAbsolute(absolute.getX() - offsetX, absolute.getY() - offsetY);
             }
         });
         this.show = null;
-
     }
 
     public ArrayList<Entity> getSiblingObjects() {

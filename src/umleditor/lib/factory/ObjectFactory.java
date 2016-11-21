@@ -9,15 +9,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import umleditor.lib.handler.DefaultMouseEventHandler;
+import umleditor.lib.handler.MouseEventHandler;
 import umleditor.lib.object.BasicObject;
 import umleditor.lib.object.Composite;
 import umleditor.lib.object.Entity;
-import umleditor.lib.handler.DefaultMouseEventHandler;
-import umleditor.lib.handler.MouseEventHandler;
 
 import java.util.ArrayList;
 
@@ -98,9 +97,7 @@ public class ObjectFactory {
         g.setOnMouseDragReleased(handler.getOnMouseDragReleasedEvent());
         g.setOnDragDetected(handler.getOnDragDetectedEventHandler());
 
-        g.setTranslateX(x);
-        g.setTranslateY(y);
-        g.setAbsolute(x, y);
+        g.setTranslate(x, y);
         g.setCursor(Cursor.HAND);
 
         return g;

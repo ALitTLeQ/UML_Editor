@@ -43,7 +43,7 @@ public class Composite extends Entity {
     }
 
     public void updateChildrenOffset(double offsetX, double offsetY) {
-        for(Node obj : this.getChildren()) {
+        this.getChildren().forEach( obj -> {
             if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setOffset(offsetX, offsetY);
@@ -54,7 +54,7 @@ public class Composite extends Entity {
                 Composite composite = ((Composite)obj);
                 composite.updateChildrenOffset(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
             }
-        }
+        });
     }
 
     public void unGroup() {
@@ -63,7 +63,7 @@ public class Composite extends Entity {
         double offsetX = this.getTranslateX();
         double offsetY = this.getTranslateY();
 
-        for(Node obj : this.getChildren()) {
+        this.getChildren().forEach( obj -> {
             if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
                 basicObject.setTranslate(offsetX + basicObject.getTranslateX(), offsetY + basicObject.getTranslateY());
@@ -74,21 +74,18 @@ public class Composite extends Entity {
                 Composite composite = ((Composite)obj);
                 composite.setTranslate(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
             }
-        }
+        });
         this.show = null;
 
     }
 
     public ArrayList<Entity> getSiblingObjects() {
         ArrayList<Entity> objects= new ArrayList<>();
-        for(Node obj : this.getChildren()) {
-            if(obj instanceof BasicObject) {
-                objects.add((BasicObject)obj);
+        this.getChildren().forEach( obj -> {
+            if (obj instanceof Entity) {
+                objects.add((Entity) obj);
             }
-            else if(obj instanceof Composite) {
-                objects.add((Composite)obj);
-            }
-        }
+        });
         return objects;
     }
 

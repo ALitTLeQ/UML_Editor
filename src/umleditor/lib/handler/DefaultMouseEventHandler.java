@@ -15,7 +15,7 @@ import umleditor.lib.object.Entity;
  * Created by ee830804 on 2016/10/30.
  */
 public class DefaultMouseEventHandler implements MouseEventHandler {
-
+    // singleton pattern
     private DefaultMouseEventHandler() {}
 
     private static MouseEventHandler INSTANCE;

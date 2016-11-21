@@ -150,11 +150,11 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         Bounds selectBounds = uiController.multiSelectRect.getBoundsInParent();
                         uiController.clearSelected();
 
-                        for(Entity obj : uiController.getObjects()) {
+                        uiController.getObjects().forEach( obj->{
                             if(selectBounds.contains(obj.getBoundsInParent())) {
                                 uiController.addSelected(obj);
                             }
-                        }
+                        });
                         uiController.multiSelectRect.initialize();
                     }
                 }

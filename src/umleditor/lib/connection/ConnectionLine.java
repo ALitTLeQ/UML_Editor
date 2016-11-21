@@ -49,7 +49,7 @@ public class ConnectionLine extends Group {
         Point2D fromPort = getFromPort();
         Point2D toPort = getToPort();
 
-        for(Node obj: getChildren()) {
+        this.getChildren().forEach( obj -> {
             if(obj instanceof Line) {
                 Line line = (Line)obj;
                 line.setStartX(fromPort.getX());
@@ -57,11 +57,10 @@ public class ConnectionLine extends Group {
                 line.setEndX(toPort.getX());
                 line.setEndY(toPort.getY());
             }
-            else if(obj instanceof Symbol)
-            {
+            else if(obj instanceof Symbol) {
                 ((Symbol)obj).setAngleAndPosition(fromPort.getX(), toPort.getX(), fromPort.getY(), toPort.getY());
             }
-        }
+        });
     }
 
 }

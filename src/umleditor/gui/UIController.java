@@ -59,7 +59,6 @@ public class UIController implements Initializable{
         auxiliaryLine = new AuxiliaryLine(0, 0, 0, 0);
 
         root.getChildren().addAll(auxiliaryLine, multiSelectRect );
-
     }
 
     public void selectButton(Button btn) {
@@ -141,6 +140,7 @@ public class UIController implements Initializable{
             objects.removeAll(composite.getChildren());
             objects.add(composite);
             root.getChildren().add(composite);
+
             clearSelected();
             addSelected(composite);
         }
@@ -193,9 +193,7 @@ public class UIController implements Initializable{
     }
 
     public void clearSelected() {
-        for(Entity obj : objects) {
-            obj.unSelected();
-        }
+        objects.forEach(Entity::unSelected);
         selectedObjects.clear();
     }
 

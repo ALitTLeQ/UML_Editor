@@ -64,15 +64,12 @@ public class Composite extends Entity {
         double offsetY = this.getTranslateY();
 
         this.getChildren().forEach( obj -> {
+            Entity entity = (Entity)obj;
+            entity.setTranslate(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
+
             if(obj instanceof BasicObject) {
-                BasicObject basicObject = ((BasicObject)obj);
-                basicObject.setTranslate(offsetX + basicObject.getTranslateX(), offsetY + basicObject.getTranslateY());
-                basicObject.setOffset(0, 0);
-                basicObject.updateConnection();
-            }
-            else if(obj instanceof Composite) {
-                Composite composite = ((Composite)obj);
-                composite.setTranslate(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
+                ((BasicObject)obj).setOffset(0, 0);
+                ((BasicObject)obj).updateConnection();
             }
         });
         this.show = null;
@@ -100,7 +97,4 @@ public class Composite extends Entity {
         this.getSiblingObjects().forEach(Entity::unSelected);
         show.setStroke(Color.TRANSPARENT);
     }
-
-
-
 }

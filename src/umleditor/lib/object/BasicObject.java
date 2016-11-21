@@ -79,20 +79,20 @@ public class BasicObject extends Entity {
 
     @Override
     public void onSelected() {
-        for(Node obj : getChildren()) {
+        this.getChildren().forEach( obj -> {
             if(obj instanceof Group) {
                 obj.setStyle("visibility: visible;");
             }
-        }
+        });
     }
 
     @Override
     public void unSelected() {
-        for(Node obj : getChildren()) {
+        this.getChildren().forEach( obj -> {
             if(obj instanceof Group) {
                 obj.setStyle("visibility: hidden;");
             }
-        }
+        });
     }
 
 

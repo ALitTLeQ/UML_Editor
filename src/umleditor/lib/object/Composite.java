@@ -1,12 +1,10 @@
 package umleditor.lib.object;
 
 import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by ee830804 on 2016/11/1.
@@ -39,10 +37,11 @@ public class Composite extends Entity {
     public void setTranslate(double x, double y) {
         this.setTranslateX(x);
         this.setTranslateY(y);
-        this.updateChildrenOffset(this.getTranslateX(), this.getTranslateY());
+        this.setOffset(this.getTranslateX(), this.getTranslateY());
     }
 
-    public void updateChildrenOffset(double offsetX, double offsetY) {
+    @Override
+    public void setOffset(double offsetX, double offsetY) {
         this.getChildren().forEach( obj -> {
             if(obj instanceof BasicObject) {
                 BasicObject basicObject = ((BasicObject)obj);
@@ -52,7 +51,7 @@ public class Composite extends Entity {
             }
             else if(obj instanceof Composite) {
                 Composite composite = ((Composite)obj);
-                composite.updateChildrenOffset(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
+                composite.setOffset(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
             }
         });
     }

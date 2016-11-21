@@ -59,6 +59,7 @@ public class BasicObject extends Entity {
         this.updateConnection();
     }
 
+    @Override
     public void setOffset(double x, double y) {
         offsetX = x;
         offsetY = y;

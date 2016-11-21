@@ -13,5 +13,6 @@ public abstract class Entity extends Group{
     public abstract void onSelected();
     public abstract void unSelected();
     public abstract void setTranslate(double x, double y);
+    public abstract void setOffset(double x, double y);
 
 }

@@ -2,7 +2,6 @@ package umleditor.lib.connection;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import umleditor.lib.object.BasicObject;
@@ -34,15 +33,15 @@ public class ConnectionLine extends Group {
     }
 
     public Point2D getFromPort() {
-        Point2D pTranslate =from.getTranslatePoint();
+        Point2D absolute = from.getAbsolute();
         Rectangle rect = from.pList.get(fromPortidx);
-        return (new Point2D(rect.getX(), rect.getY())).add(pTranslate);
+        return (new Point2D(rect.getX(), rect.getY())).add(absolute);
     }
 
     public Point2D getToPort() {
-        Point2D pTranslate =to.getTranslatePoint();
+        Point2D absolute = to.getAbsolute();
         Rectangle rect = to.pList.get(toPortidx);
-        return (new Point2D(rect.getX(), rect.getY())).add(pTranslate);
+        return (new Point2D(rect.getX(), rect.getY())).add(absolute);
     }
 
     public void update() {

@@ -100,6 +100,7 @@ public class ObjectFactory {
 
         g.setTranslateX(x);
         g.setTranslateY(y);
+        g.setAbsolute(x, y);
         g.setCursor(Cursor.HAND);
 
         return g;

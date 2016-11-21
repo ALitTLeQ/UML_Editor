@@ -1,7 +1,9 @@
 package umleditor.lib.object;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -37,21 +39,15 @@ public class Composite extends Entity {
     public void setTranslate(double x, double y) {
         this.setTranslateX(x);
         this.setTranslateY(y);
-        this.setOffset(this.getTranslateX(), this.getTranslateY());
+        this.setAbsolute(this.getTranslateX(), this.getTranslateY());
     }
 
     @Override
-    public void setOffset(double offsetX, double offsetY) {
+    public void setAbsolute(double offsetX, double offsetY) {
         this.getChildren().forEach( obj -> {
-            if(obj instanceof BasicObject) {
-                BasicObject basicObject = ((BasicObject)obj);
-                basicObject.setOffset(offsetX, offsetY);
-
-                ((BasicObject)obj).updateConnection();
-            }
-            else if(obj instanceof Composite) {
-                Composite composite = ((Composite)obj);
-                composite.setOffset(offsetX + composite.getTranslateX(), offsetY + composite.getTranslateY());
+            if(obj instanceof Entity) {
+                Entity entity = ((Entity)obj);
+                entity.setAbsolute(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
             }
         });
     }
@@ -66,9 +62,11 @@ public class Composite extends Entity {
             Entity entity = (Entity)obj;
             entity.setTranslate(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
 
+            // restore absolute
             if(obj instanceof BasicObject) {
-                ((BasicObject)obj).setOffset(0, 0);
-                ((BasicObject)obj).updateConnection();
+                BasicObject basicObject = ((BasicObject)obj);
+                Point2D absolute = basicObject.getAbsolute();
+                basicObject.setAbsolute(absolute.getX() - offsetX, absolute.getY() - offsetY);
             }
         });
         this.show = null;

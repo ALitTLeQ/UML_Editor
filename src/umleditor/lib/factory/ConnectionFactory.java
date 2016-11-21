@@ -22,8 +22,8 @@ public class ConnectionFactory {
 
         Point2D fromPort = new Point2D(fromRect.getX(), fromRect.getY());
         Point2D toPort = new Point2D(toRect.getX(), toRect.getY());
-        Point2D fromTranslate = fromObject.getTranslatePoint();
-        Point2D toTranslate = toObject.getTranslatePoint();
+        Point2D fromTranslate = fromObject.getAbsolute();
+        Point2D toTranslate = toObject.getAbsolute();
 
         fromPort = fromPort.add(fromTranslate);
         toPort = toPort.add(toTranslate);

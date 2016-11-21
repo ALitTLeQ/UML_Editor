@@ -20,14 +20,16 @@ public class BasicObject extends Entity {
     public ArrayList<Rectangle> pList;
     private final ArrayList<ConnectionLine> connectionTo;
     private final ArrayList<ConnectionLine> connectionFrom;
-    private double offsetX;
-    private double offsetY;
+    private double absoluteX;
+    private double absoluteY;
 
     public BasicObject() {
         super();
         connectionTo = new ArrayList<>();
         connectionFrom = new ArrayList<>();
         pList = new ArrayList<>();
+        absoluteX = 0;
+        absoluteY = 0;
     }
 
     public void addConnectionFrom(ConnectionLine c) {
@@ -54,15 +56,18 @@ public class BasicObject extends Entity {
 
     @Override
     public void setTranslate(double x, double y) {
+        absoluteX += (x - getTranslateX());
+        absoluteY += (y - getTranslateY());
         this.setTranslateX(x);
         this.setTranslateY(y);
         this.updateConnection();
     }
 
     @Override
-    public void setOffset(double x, double y) {
-        offsetX = x;
-        offsetY = y;
+    public void setAbsolute(double x, double y) {
+        absoluteX = x;
+        absoluteY = y;
+        this.updateConnection();
     }
 
     public void updateConnection() {
@@ -74,8 +79,8 @@ public class BasicObject extends Entity {
         return name.getText();
     }
 
-    public Point2D getTranslatePoint() {
-        return new Point2D(offsetX+this.getTranslateX(), offsetY+this.getTranslateY());
+    public Point2D getAbsolute() {
+        return new Point2D(absoluteX, absoluteY);
     }
 
     @Override

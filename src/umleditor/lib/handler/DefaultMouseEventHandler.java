@@ -116,7 +116,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         // move entity
                         entity.setTranslate(newTranslateX, newTranslateY);
 
-                        // set entity movable area
+                        // setAbsolute entity movable area
                         double dx = uiController.getBounds().getMinX() - entity.getBoundsInParent().getMinX();
                         double dy = uiController.getBounds().getMinY() - entity.getBoundsInParent().getMinY();
                         if(dx >= 0) {

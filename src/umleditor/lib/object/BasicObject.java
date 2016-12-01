@@ -37,12 +37,6 @@ public class BasicObject extends Entity {
     public void addConnectionTo(ConnectionLine c) {
         connectionTo.add(c);
     }
-    public ArrayList<ConnectionLine> getConnectionFrom() {
-        return connectionFrom;
-    }
-    public ArrayList<ConnectionLine> getConnectionTo() {
-        return connectionTo;
-    }
 
     public void setName(String _name)
     {
@@ -70,8 +64,8 @@ public class BasicObject extends Entity {
     }
 
     public void updateConnection() {
-        this.getConnectionFrom().forEach(ConnectionLine::update);
-        this.getConnectionTo().forEach(ConnectionLine::update);
+        connectionFrom.forEach(ConnectionLine::update);
+        connectionTo.forEach(ConnectionLine::update);
     }
 
     public String getName() {
@@ -84,20 +78,12 @@ public class BasicObject extends Entity {
 
     @Override
     public void onSelected() {
-        this.getChildren().forEach( obj -> {
-            if(obj instanceof Group) {
-                obj.setStyle("visibility: visible;");
-            }
-        });
+        this.pList.forEach( obj -> obj.setStyle("visibility: visible;"));
     }
 
     @Override
     public void unSelected() {
-        this.getChildren().forEach( obj -> {
-            if(obj instanceof Group) {
-                obj.setStyle("visibility: hidden;");
-            }
-        });
+        this.pList.forEach( obj -> obj.setStyle("visibility: hidden;"));
     }
 
 

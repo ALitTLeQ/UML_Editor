@@ -26,9 +26,9 @@ import java.util.ArrayList;
  */
 public class ObjectFactory {
 
-    public static MouseEventHandler handler = DefaultMouseEventHandler.instance();
-    public static double width = 80;
-    public static Paint backgroundColor = Paint.valueOf("E4E4E4");
+    private static MouseEventHandler handler = DefaultMouseEventHandler.instance();
+    private static double width = 80;
+    private static Paint backgroundColor = Paint.valueOf("E4E4E4");
 
     public static BasicObject create(BasicObject.Type type , double x, double y) {
         BasicObject g = new BasicObject();
@@ -89,6 +89,8 @@ public class ObjectFactory {
         }
         g.getChildren().add(ports);
         g.unSelected();
+        g.setTranslate(x, y);
+        g.setCursor(Cursor.HAND);
 
         // add eventHandler
         g.setOnMousePressed(handler.getOnMousePressedEvent());
@@ -96,10 +98,6 @@ public class ObjectFactory {
         g.setOnMouseReleased(handler.getOnMouseReleasedEvent());
         g.setOnMouseDragReleased(handler.getOnMouseDragReleasedEvent());
         g.setOnDragDetected(handler.getOnDragDetectedEventHandler());
-
-        g.setTranslate(x, y);
-        g.setCursor(Cursor.HAND);
-
         return g;
     }
 
@@ -113,5 +111,4 @@ public class ObjectFactory {
 
         return composite;
     }
-
 }

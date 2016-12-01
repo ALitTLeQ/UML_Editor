@@ -27,13 +27,13 @@ import java.util.ResourceBundle;
 
 public class UIController implements Initializable{
     public enum Mode { SELECT, CONNECTION, OBJECT };
-    public Mode mode = null;
+    private Mode mode = null;
     private BasicObject.Type objectType = BasicObject.Type.Class;
     private ConnectionLine.Type connectionType;
     private Button selectedBtn = null;
 
-    public static ArrayList<Entity> objects = new ArrayList<>();
-    public static ArrayList<Entity> selectedObjects = new ArrayList<>();
+    private ArrayList<Entity> objects = new ArrayList<>();
+    private ArrayList<Entity> selectedObjects = new ArrayList<>();
 
     public MultiSelectRect multiSelectRect;
     public AuxiliaryLine auxiliaryLine;
@@ -42,7 +42,6 @@ public class UIController implements Initializable{
     private Pane pane;
     @FXML
     private Group root;
-
     private Bounds bounds;
 
     @Override
@@ -174,6 +173,8 @@ public class UIController implements Initializable{
     public Bounds getBounds() {
         return bounds;
     }
+
+    public Mode getMode() { return mode; }
 
     public void addBasicObject(double x, double y) {
         BasicObject newObject = ObjectFactory.create(objectType, x, y);

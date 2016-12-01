@@ -48,10 +48,10 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 beginLocal = new Point2D(e.getX(), e.getY());
 
                 if(e.getSource() instanceof Pane) {
-                    if(uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.getMode() == UIController.Mode.SELECT) {
                         uiController.clearSelected();
                     }
-                    else if(uiController.mode == UIController.Mode.OBJECT) {
+                    else if(uiController.getMode() == UIController.Mode.OBJECT) {
                         uiController.addBasicObject(e.getX(), e.getY());
                     }
                 }
@@ -59,13 +59,13 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     Entity entity = ((Entity) e.getSource());
                     translate = new Point2D(entity.getTranslateX(), entity.getTranslateY());
 
-                    if(uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.getMode() == UIController.Mode.SELECT) {
                         // select entity
                         uiController.clearSelected();
                         uiController.addSelected(entity);
                         e.consume();
                     }
-                    else if(uiController.mode == UIController.Mode.CONNECTION
+                    else if(uiController.getMode() == UIController.Mode.CONNECTION
                             && entity instanceof BasicObject) {
                         // only connect basicObjects
                         uiController.auxiliaryLine.initialize(translate.getX() + e.getX(), translate.getY() + e.getY());
@@ -82,7 +82,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             @Override
             public void handle(MouseEvent e) {
 
-                if(uiController.mode == UIController.Mode.CONNECTION) {
+                if(uiController.getMode() == UIController.Mode.CONNECTION) {
                     fromObject = (BasicObject) (e.getSource());
                     fromPortIdx = choosePort(fromObject, e.getX(), e.getY());
 
@@ -104,7 +104,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 double newTranslateY = translate.getY() + offsetY;
 
                 if(e.getSource() instanceof Pane) {
-                    if(uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.getMode() == UIController.Mode.SELECT) {
                         uiController.multiSelectRect.toFront();
                         uiController.multiSelectRect.setRegion(e.getX(), e.getY(), beginLocal.getX(), beginLocal.getY());
                     }
@@ -112,7 +112,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                 else if(e.getSource() instanceof Entity) {
                     Entity entity = (Entity) (e.getSource());
 
-                    if(uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.getMode() == UIController.Mode.SELECT) {
                         // move entity
                         entity.setTranslate(newTranslateX, newTranslateY);
 
@@ -128,7 +128,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                         entity.setTranslate(newTranslateX, newTranslateY);
 
                     }
-                    else if(uiController.mode == UIController.Mode.CONNECTION
+                    else if(uiController.getMode() == UIController.Mode.CONNECTION
                             && entity instanceof BasicObject) {
                         uiController.auxiliaryLine.toFront();
                         uiController.auxiliaryLine.setEnd(translate.getX() + e.getX(), translate.getY() + e.getY());
@@ -145,7 +145,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
             @Override
             public void handle(MouseEvent e) {
                 if(e.getSource() instanceof Pane) {
-                    if(uiController.mode == UIController.Mode.SELECT) {
+                    if(uiController.getMode() == UIController.Mode.SELECT) {
                         // multi select
                         Bounds selectBounds = uiController.multiSelectRect.getBoundsInParent();
                         uiController.clearSelected();
@@ -159,7 +159,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
                     }
                 }
                 else if(e.getSource() instanceof BasicObject) {
-                    if (uiController.mode == UIController.Mode.CONNECTION) {
+                    if (uiController.getMode() == UIController.Mode.CONNECTION) {
                         // release auxiliary line
                         uiController.auxiliaryLine.initialize(0, 0);
 
@@ -202,5 +202,4 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
         }
         return obj.pList.indexOf(port);
     }
-
 }

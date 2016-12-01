@@ -18,10 +18,6 @@ public class ConnectionLine extends Group {
     private BasicObject to;
     private int toPortidx;
 
-    public ConnectionLine() {
-        super();
-    }
-
     public void setFrom(BasicObject obj, int idx) {
         from = obj;
         fromPortidx = idx;

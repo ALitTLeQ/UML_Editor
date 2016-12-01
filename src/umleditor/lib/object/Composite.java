@@ -13,10 +13,6 @@ import java.util.ArrayList;
 public class Composite extends Entity {
     private Rectangle show;
 
-    public Composite() {
-        super();
-    }
-
     public void addAllObject(ArrayList<Entity>objList) {
         for(Entity obj: objList)
         {

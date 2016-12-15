@@ -13,7 +13,21 @@ import java.util.ArrayList;
 public class Composite extends Entity {
     private Rectangle show;
 
-    public void addAllObject(ArrayList<Entity>objList) {
+    @Override
+    public void setTranslate(double x, double y) {
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+        this.setAbsolute(this.getTranslateX(), this.getTranslateY());
+    }
+
+    @Override
+    public void setAbsolute(double offsetX, double offsetY) {
+        this.getSiblingObjects().forEach( entity -> {
+            entity.setAbsolute(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
+        });
+    }
+
+    public void group(ArrayList<Entity>objList) {
         for(Entity obj: objList)
         {
             this.getChildren().add(obj);
@@ -28,20 +42,6 @@ public class Composite extends Entity {
         show.toFront();
 
         this.getChildren().add(show);
-    }
-
-    @Override
-    public void setTranslate(double x, double y) {
-        this.setTranslateX(x);
-        this.setTranslateY(y);
-        this.setAbsolute(this.getTranslateX(), this.getTranslateY());
-    }
-
-    @Override
-    public void setAbsolute(double offsetX, double offsetY) {
-        this.getSiblingObjects().forEach( entity -> {
-            entity.setAbsolute(offsetX + entity.getTranslateX(), offsetY + entity.getTranslateY());
-        });
     }
 
     public void unGroup() {

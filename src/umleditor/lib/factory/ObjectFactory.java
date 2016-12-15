@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 public class ObjectFactory {
 
-    private static MouseEventHandler handler = DefaultMouseEventHandler.instance();
+    private static MouseEventHandler handler = DefaultMouseEventHandler.getInstance();
     private static double width = 80;
     private static Paint backgroundColor = Paint.valueOf("E4E4E4");
 
@@ -103,7 +103,7 @@ public class ObjectFactory {
 
     public static Composite createComposite(ArrayList<Entity>objs) {
         Composite composite = new Composite();
-        composite.addAllObject(objs);
+        composite.group(objs);
         composite.setOnMousePressed(handler.getOnMousePressedEvent());
         composite.setOnMouseDragged(handler.getOnMouseDraggedEvent());
         composite.setOnMouseReleased(handler.getOnMouseReleasedEvent());

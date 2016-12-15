@@ -19,7 +19,7 @@ public class DefaultMouseEventHandler implements MouseEventHandler {
     private DefaultMouseEventHandler() {}
 
     private static MouseEventHandler INSTANCE;
-    public static MouseEventHandler instance() {
+    public static synchronized MouseEventHandler getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new DefaultMouseEventHandler();
 

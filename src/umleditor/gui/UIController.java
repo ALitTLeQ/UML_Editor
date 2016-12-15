@@ -46,7 +46,7 @@ public class UIController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MouseEventHandler handler = DefaultMouseEventHandler.instance();
+        MouseEventHandler handler = DefaultMouseEventHandler.getInstance();
         handler.setUIController(this);
 
         pane.setOnMousePressed(handler.getOnMousePressedEvent());

@@ -1,26 +1,126 @@
 @startuml
+skinparam linetype ortho
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+package javafx.scene.shape{
+    class Rectangle
+    class Line
+}
+package gui{
+    enum Mode {
+        SELECT
+        CONNECTION
+        OBJECT
+    }
+    class UIController{
+        - mode : Mode
+        - multiSelectRect : MultiSelectRect
+        - auxiliaryLine : AuxiliaryLine
+        - objects : ArrayList<Entity>
+        - selectedObjects : ArrayList<Entity>
+        - objectType : ObjectType
+        - connectionType : ConnectionType
+        - Entity root
+    }
+    class UIView
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
+    Main --> UIController
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
+    MenuBar "1" --* "1" UIView
+    Pane "1" --* "1" UIView
 
-class ArrayList {
-Object[] elementData
-size()
+    Button "6" -left-* "1" MenuBar
+
+    UIController "1" -left-> "1" UIView
+    UIController "1" -> "1" Mode
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+package lib{
+
+    package factory{
+        interface IConnectionFactory
+        interface IEntityFactory
+        class DefaultConnectionFactory implements IConnectionFactory{
+        }
+        class DefaultEntityFactory implements IEntityFactory{
+        }
+
+    }
+    package handler{
+        interface IMouseEventHandler
+        class DefaultMouseEventHandler implements IMouseEventHandler{
+            -INSTANCE : DefaultMouseEventHandler {static}
+        }
+
+    }
+
+    package tool{
+        class AuxiliaryLine extends Line
+        class MultiSelectRect extends Rectangle
+    }
+    package object{
+        enum ObjectType {
+            CLASS
+            USE_CASE
+        }
+
+        abstract class Entity{
+        }
+        class BasicObject extends Entity{
+            - name : Text
+            - ports : ArrayList<Rectangle>
+            - connectionTo : ArrayList<ConnectionLine>;
+            - connectionFrom : ArrayList<ConnectionLine>;
+            - view : Group
+        }
+        class Composite extends Entity{
+            - border : Rectangle
+        }
+        class Class extends BasicObject
+        class UseCase extends BasicObject
+
+        BasicObject --> ObjectType
+
+
+    }
+    package connection{
+        enum ConnectionType {
+            ASSOCIATION
+            GENERALIZATION
+            COMPOSITION
+        }
+        package symbol{
+             class Symbol
+             class Diamond extends Symbol
+             class Triangle extends Symbol
+        }
+
+        class ConnectionLine{
+            - symbol: Symbol
+            - from : BasicObject;
+            - to : BasicObject;
+            - fromPortidx : int;
+            - toPortidx : int;
+        }
+
+        ConnectionLine --> ConnectionType
+        ConnectionLine "1" *-- "1" Symbol
+
+    }
 }
+UIController "1" *-- "1" MultiSelectRect
+UIController "1" *-- "1" AuxiliaryLine
+UIController "1" *-- "0..*" Entity
+UIController "1" o-- "1" ObjectType
+UIController "1" o-- "1" ConnectionType
+UIController --> IEntityFactory
+UIController --> IConnectionFactory
+
+IEntityFactory --> Entity
+IEntityFactory -> IMouseEventHandler
+IConnectionFactory --> ConnectionLine
+
+BasicObject "1" *-- "4" Rectangle
+BasicObject "1" o-- "0..*" ConnectionLine
+BasicObject "2" --o "1" ConnectionLine
 
 @enduml

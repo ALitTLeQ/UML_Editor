@@ -1,0 +1,93 @@
+@startuml
+
+class Canvas{
+    - Mode currentMode
+}
+
+class Mode
+class SelectMode extends Mode{
+    mouseClicked()
+    mousePressed()
+    mouseRelease()
+}
+class AssociationLineMode extends Mode{
+    mouseClicked()
+    mousePressed()
+    mouseRelease()
+}
+note top of SelectMode : mouseClicked(e)\nif(e is inside obj o)\n\to.mouseClicked( )
+note right of Canvas : paint(g)\nfor each O in Canvas\n\tO.draw( )
+note top of Canvas : 根據mode改變
+
+class UMLeditor{
+}
+
+class JButton{
+    ActionPerform()
+}
+
+class SelectBtn extends JButton{
+    ActionPerform()
+}
+class ClassBtn extends JButton{
+    ActionPerform()
+}
+
+class Shape{
+    onSelected()
+    unSelected()
+    setTranslate(double, double)
+
+
+}
+
+class BasicObj extends Shape{
+    - int x, y
+    - int w, h
+    - vector<Port>
+    setTranslate(Line)
+    changeName(string)
+}
+
+class Line extends Shape{
+    - Port st
+    - Port ed
+    draw()
+    setFrom(BasicObj)
+    setTo(BasicObj)
+}
+class Group extends Shape{
+    - vector<Shape> children
+    getSiblingObjects()
+    unGroup()
+}
+
+class Class extends BasicObj
+class UseCase extends BasicObj
+
+class AssociationLine extends Line
+class GeneralizationLine extends Line
+class CompositionLine extends Line
+
+
+class Port{
+    - int RX
+    - int RY
+    - BasicObj parent
+    - vector<Line>
+}
+
+UMLeditor "1" -- "*" JButton
+UMLeditor "1" --- "1" Canvas
+Canvas --> Mode
+
+Canvas "1" o-- "0..*" Shape
+Port "4" -left- "1" BasicObj
+Port "1" - "*" Line
+Shape "*" -- "1" Group
+
+
+
+
+
+@enduml
